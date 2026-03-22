@@ -4,6 +4,16 @@ This repository contains static HTML, CSS, and JavaScript files for a web develo
 It is structured as a small multi-page site, with each page having a matching stylesheet and script
 file ready for styling and interactivity.
 
+## Topic
+
+The HTML files are currently boilerplate placeholders, so the assignment content has not been
+implemented yet. Based on the file names, the intended topic appears to be a dog adoption flow:
+
+- `adopt.html` could be the adoption landing or form page.
+- `dog.html` could present a dog profile.
+- `thankyou.html` could confirm a submission.
+- `body.html` is likely a generic content or layout page and can be renamed to match the final topic.
+
 ## Project structure
 
 - Pages
