@@ -1,4 +1,4 @@
-# Assigment1 - Wed Develop
+# Assignment1 - Web Development
 
 This repository contains static HTML, CSS, and JavaScript files for a web development assignment.
 
