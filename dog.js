@@ -1,0 +1,42 @@
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        const id = getDogIdFromURL();
+        const dogs = await fetchAllDogs();
+        const dog = dogs[id];
+
+        if (!dog) {
+            window.location.href = "index.html";
+            return;
+        }
+
+        document.getElementById("page-title").textContent = `${dog.name} Details`;
+        document.getElementById("dog-image").src = dog.first_image_url;
+        document.getElementById("dog-image").alt = dog.name;
+        document.getElementById("dog-name").textContent = dog.name;
+        document.getElementById("dog-breed").textContent = dog.breed;
+        document.getElementById("dog-age").textContent = dog.age;
+        document.getElementById("dog-sex").textContent = dog.sex;
+        document.getElementById("dog-house-trained").textContent = dog.house_trained ? "Yes" : "No";
+        document.getElementById("dog-vaccinated").textContent = formatBoolean(dog.vaccinated);
+        document.getElementById("dog-story").textContent = dog.story;
+
+        document.getElementById("adopt-link").href = `adopt.html?id=${id}`;
+
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+
+        if (id === 0) {
+            prevBtn.style.display = "none";
+        } else {
+            prevBtn.href = `dog.html?id=${id - 1}`;
+        }
+
+        if (id === dogs.length - 1) {
+            nextBtn.style.display = "none";
+        } else {
+            nextBtn.href = `dog.html?id=${id + 1}`;
+        }
+    } catch (error) {
+        console.error("Error loading dog details:", error);
+    }
+});
