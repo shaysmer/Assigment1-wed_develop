@@ -152,3 +152,71 @@ Never use `dog.id` as the URL param. Always use the array index.
 ## Handoff to Backend Agent
 Leave `API_BASE = "YOUR_POSTMAN_MOCK_URL_HERE"` in `script.js`.
 The Backend Agent will provide the real URL to replace it with.
+
+---
+
+# Phase 2 — Gamification & UI Polish (Minimal)
+
+## Hard constraint
+The submission must contain **exactly the 14 files** listed above inside `src/`.
+**No new files allowed.** All Phase 2 features live inside the existing 14 files.
+
+## Scope (4 features only)
+
+### 1. Design system — `styles.css`
+- Add Google Fonts link in every HTML page `<head>`: Nunito (weights 400, 700)
+- Define CSS variables on `:root`:
+  - `--primary: #f97316` (warm orange)
+  - `--primary-dark: #ea580c`
+  - `--accent: #fbbf24`
+  - `--bg: #fffaf5` (cream)
+  - `--card: #ffffff`
+  - `--text: #1f2937`
+  - `--muted: #6b7280`
+  - `--success: #10b981`
+  - `--shadow-md: 0 6px 18px rgba(0,0,0,0.08)`
+  - `--radius: 14px`
+- Replace existing colors throughout `styles.css` with these variables
+- Body uses `font-family: 'Nunito', system-ui, sans-serif`
+- Body fade-in animation on load
+
+### 2. sessionStorage cache — `script.js`
+- `fetchAllDogs()` checks `sessionStorage.getItem('dogs_cache')` first
+- On cache miss: fetch, store as JSON, return
+- On cache hit: parse and return immediately
+- Eliminates the slow Next button (no network round-trip)
+
+### 3. Favorites — `script.js` + page files
+Add these helpers to `script.js` (alongside the existing utilities):
+```js
+function getFavorites() { /* returns array of indexes from localStorage */ }
+function toggleFavorite(index) { /* adds/removes, returns new state */ }
+function isFavorite(index) { /* boolean */ }
+```
+
+In `index.html`: add a `<header>` element above the dogs container with:
+- Site title on the left
+- `<a href="#" id="fav-counter">❤️ <span id="fav-count">0</span></a>` on the right
+
+In `index.js`:
+- After populating cards, add a heart button to each card (`createElement('button')`)
+- Heart shows filled (❤️) or empty (🤍) based on `isFavorite(index)`
+- Click toggles favorite, updates heart, updates `#fav-count`
+- On load, set `#fav-count` from `getFavorites().length`
+
+In `dog.html`: add `<button id="fav-btn"></button>` next to the Adopt Me button.
+In `dog.js`: same toggle behavior, syncs with `localStorage`.
+
+In `index.css` and `dog.css`: heart button styling — no border, large emoji, hover scale.
+
+### 4. Confetti on Thank You — `thankyou.js` + `thankyou.css`
+Pure JS/CSS confetti, no library:
+- On `DOMContentLoaded`, after dog data loads, spawn 40 `<div class="confetti">` elements with random `left`, `background-color`, `animation-delay`
+- CSS keyframe `@keyframes fall` translates Y from -10vh to 110vh with rotation
+- Add a big animated checkmark above the heading (SVG with `stroke-dasharray` draw-in)
+
+## What NOT to do in Phase 2
+- ❌ Don't create new HTML/CSS/JS files
+- ❌ Don't add a quiz, badges modal, points system, shortlist page
+- ❌ Don't break existing element IDs (`prev-btn`, `next-btn`, `dog-heading`, `adopt-form`, `adopt-btn`, `back-link`)
+- ❌ Don't modify `dogs_data.json`

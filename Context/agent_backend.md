@@ -104,4 +104,10 @@ Before handing off to the Frontend Agent, verify:
 ---
 
 ## Handoff to Frontend Agent
-Provide the `API_BASE` URL so it can be set in `script.js`.
+Provide the `API_BASE` URL so it can be set in `src/script.js`.
+
+---
+
+## Phase 2 — Gamification (no backend changes)
+The gamification phase is **frontend-only**. The mock server stays as-is.
+No new endpoints, no changes to existing endpoints. Skip this file in Phase 2.

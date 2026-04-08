@@ -132,3 +132,57 @@ Always test with **array index** (0–5) in URL params, not `dog.id` (1–6).
 - [ ] Form POST sends correct body keys: `email`, `fullname`, `phone`
 - [ ] Redirect after submit goes to `thankyou.html?id=N`
 - [ ] "Thank you for your enquiry!" message is present on thankyou page
+
+---
+
+# Phase 2 — Tests for Gamification
+
+## File location
+`tests.js` lives in the **project root, NOT inside `src/`**. The PDF submission
+allows only the 14 listed files in `src/`. `tests.js` is a dev-only artifact and
+must NOT be included in the final ZIP.
+
+## New test cases (append to existing suite)
+
+### 1. sessionStorage cache (script.js)
+| Test | Description |
+|------|-------------|
+| First `fetchAllDogs` call hits fetch | Mock fetch is called once |
+| Second `fetchAllDogs` call uses cache | Mock fetch call count stays at 1 |
+| Cache key is `dogs_cache` | `sessionStorage.getItem('dogs_cache')` is non-null after first call |
+
+Setup: clear `sessionStorage.removeItem('dogs_cache')` before each test.
+
+### 2. Favorites helpers (script.js)
+| Test | Description |
+|------|-------------|
+| `getFavorites()` returns empty array initially | After clearing localStorage |
+| `toggleFavorite(2)` adds index 2 | `getFavorites()` includes 2 |
+| `toggleFavorite(2)` again removes index 2 | `getFavorites()` does not include 2 |
+| `isFavorite(2)` reflects state | true after add, false after remove |
+| Favorites persist across calls | Survives `localStorage` reload |
+
+Setup: `localStorage.removeItem('favorites')` before each test.
+
+### 3. Index page favorites UI
+| Test | Description |
+|------|-------------|
+| Each card has a heart button | `card.querySelector('button')` exists |
+| `#fav-count` updates on toggle | Counter increments when heart clicked |
+| Heart shows filled state | Heart text changes to ❤️ when favorited |
+
+### 4. Dog page favorites UI
+| Test | Description |
+|------|-------------|
+| `#fav-btn` exists | Element with id `fav-btn` is present |
+| Click toggles favorite for current dog | localStorage updates with current `id` |
+
+### 5. Confetti on thankyou (visual smoke test)
+| Test | Description |
+|------|-------------|
+| Confetti elements exist after load | `document.querySelectorAll('.confetti').length > 0` |
+
+## Important
+- Tests must NOT break the existing Phase 1 tests
+- Always clean up `localStorage` and `sessionStorage` after each test group
+- `tests.js` excluded from submission

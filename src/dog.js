@@ -22,6 +22,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         document.getElementById("adopt-btn").href = `adopt.html?id=${id}`;
 
+        const favBtn = document.getElementById("fav-btn");
+        favBtn.textContent = isFavorite(id) ? "❤️" : "🤍";
+        favBtn.addEventListener("click", function () {
+            const nowFav = toggleFavorite(id);
+            favBtn.textContent = nowFav ? "❤️" : "🤍";
+            favBtn.classList.add("pop");
+            setTimeout(function () { favBtn.classList.remove("pop"); }, 300);
+        });
+
         const prevBtn = document.getElementById("prev-btn");
         const nextBtn = document.getElementById("next-btn");
 

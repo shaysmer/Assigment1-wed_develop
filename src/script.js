@@ -18,14 +18,51 @@ function formatBoolean(value) {
     return "Unknown";
 }
 
+const DOGS_CACHE_KEY = "dogs_cache";
+const FAVORITES_KEY = "favorites";
+
 async function fetchAllDogs() {
+    const cached = sessionStorage.getItem(DOGS_CACHE_KEY);
+    if (cached) {
+        return JSON.parse(cached);
+    }
+
     const response = await fetch(`${API_BASE}/dogs`);
 
     if (!response.ok) {
         throw new Error("Failed to fetch dogs");
     }
 
-    return await response.json();
+    const dogs = await response.json();
+    sessionStorage.setItem(DOGS_CACHE_KEY, JSON.stringify(dogs));
+    return dogs;
+}
+
+function getFavorites() {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    if (!raw) return [];
+    try {
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function isFavorite(index) {
+    return getFavorites().indexOf(index) !== -1;
+}
+
+function toggleFavorite(index) {
+    const favs = getFavorites();
+    const pos = favs.indexOf(index);
+    if (pos === -1) {
+        favs.push(index);
+    } else {
+        favs.splice(pos, 1);
+    }
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+    return isFavorite(index);
 }
 
 async function fetchDogById(id) {

@@ -50,3 +50,24 @@ This project uses 3 specialized agents defined in the `Context/` folder. Read th
 - `fetchAllDogs`, `fetchDogById`, and `postAdoption` must be defined in `script.js` (auto-tested)
 - ID ≠ Index: `dog.id` is 1–6 (JSON field), URL `?id=` param is array index 0–5
 - All JS must run inside `DOMContentLoaded` event listener
+
+## Efficiency Rules (token usage)
+
+Be terse and efficient. The user is on a usage-limited plan.
+
+- **Don't re-read files you just edited** — the harness tracks file state
+- **Don't verify with Playwright after every change** — only at end of a feature, or when asked
+- **Don't re-snapshot the same page** — one snapshot per check is enough
+- **Batch related edits** in a single message, not one-by-one
+- **Don't kill/restart the dev server** between checks — keep it alive
+- **Lead with the action**, not preamble like "Let me…" or "Now I'll…"
+- **No trailing summary tables** after every task — one-line confirmation only
+- **Don't quote the assignment PDF or spec back** — the user has read it
+- **Implement directly when told to** — don't write a plan unless asked
+- **Skip "Done — here's what I changed" recaps** unless the change is non-obvious
+- **Long bulleted suggestion lists only when asked** for options/brainstorming
+
+Submission constraint: `src/` must contain **exactly the 14 required files** —
+no extras (no `gamification.js`, `header.js`, new pages, etc.). All features
+must fit inside the existing 14 files. `tests.js` and `serve.json` are dev-only
+and live outside `src/` (or are excluded from the submission ZIP).
